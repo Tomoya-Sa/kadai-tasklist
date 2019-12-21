@@ -10,6 +10,7 @@ class TasksController < ApplicationController
         
         if @task.save
             flash[:success] = '新しいタスクが入力されました'
+            # @msg = '新しいタスクが入力されました'
             redirect_to @task
         else
             flash.now[:danger] = '入力に失敗しました'
