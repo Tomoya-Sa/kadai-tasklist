@@ -1,9 +1,11 @@
 class TasksController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show, :new, :edit]
+  before_action :require_user_logged_in
+  before_action :current_user, only: [:index, :create, :new, :edit, :update, :destroy]
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   
     def index
         @tasks = current_user.tasks.order(id: :desc).page(params[:page]).per(5)
+        #@tasks = Tasks.where(user_id: current_user.id).order(id: :desc).page(params[:page]).per(5)
     end
     
     def create
@@ -12,7 +14,7 @@ class TasksController < ApplicationController
         if @task.save
             flash[:success] = '新しいタスクが入力されました'
             # @msg = '新しいタスクが入力されました'
-            redirect_to @task
+            redirect_to 
         else
             flash.now[:danger] = '入力に失敗しました'
             render :new
